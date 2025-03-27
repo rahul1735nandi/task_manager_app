@@ -272,25 +272,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> deleteTask(String objectId) async {
-  final url = Uri.parse('https://parseapi.back4app.com/classes/tasks/$objectId');
-  final token = await storage.read(key: "sessionToken");
+    final url = Uri.parse('https://parseapi.back4app.com/classes/tasks/$objectId');
+    final token = await storage.read(key: "sessionToken");
 
-  final response = await http.delete(
-    url,
-    headers: {
-      'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-      'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
-      'X-Parse-Session-Token': token ?? "",
-      'Content-Type': 'application/json',
-    },
-  );
+    final response = await http.delete(
+      url,
+      headers: {
+        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
+        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Session-Token': token ?? "",
+        'Content-Type': 'application/json',
+      },
+    );
 
-  if (response.statusCode == 200) {
-    print("Task deleted successfully");
-  } else {
-    print("Failed to delete task");
+    if (response.statusCode == 200) {
+      print("Task deleted successfully");
+    } else {
+      print("Failed to delete task");
+    }
   }
-}
 
 
   Future<void> logout() async {
@@ -431,104 +431,144 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
 
   // Available status options
   final List<String> _statusOptions = ["Pending", "In Progress", "Completed"];
-  String? _selectedStatus; // Holds the selected status
+  String? _selectedStatus;
 
   Future<void> createTask() async {
-      if (_selectedStatus == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Please select a status")),
-        );
-        return;
-      }
-
-      final url = Uri.parse('https://parseapi.back4app.com/classes/tasks');
-      final token = await storage.read(key: "sessionToken");
-
-      // Fetch the user object ID
-      final userResponse = await http.get(
-        Uri.parse('https://parseapi.back4app.com/users/me'),
-        headers: {
-          'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-          'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
-          'X-Parse-Session-Token': token ?? "",
-        },
+    if (_selectedStatus == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please select a status")),
       );
+      return;
+    }
 
-      if (userResponse.statusCode != 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Failed to get user details.")),
-        );
-        return;
-      }
+    final url = Uri.parse('https://parseapi.back4app.com/classes/tasks');
+    final token = await storage.read(key: "sessionToken");
 
-      final userData = jsonDecode(userResponse.body);
-      final userId = userData['objectId']; // Get the user ID
+    final userResponse = await http.get(
+      Uri.parse('https://parseapi.back4app.com/users/me'),
+      headers: {
+        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
+        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Session-Token': token ?? "",
+      },
+    );
 
-      // Create Task with userId and selected status
-      final response = await http.post(
-        url,
-        headers: {
-          'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-          'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
-          'X-Parse-Session-Token': token ?? "",
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({
-          "title": _titleController.text,
-          "description": _descriptionController.text,
-          "status": _selectedStatus, // Use the selected status
-          "userId": {
-            "__type": "Pointer",
-            "className": "_User",
-            "objectId": userId,
-          }
-        }),
+    if (userResponse.statusCode != 200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to get user details.")),
       );
+      return;
+    }
 
-      if (response.statusCode == 201) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Task added successfully!")),
-        );
+    final userData = jsonDecode(userResponse.body);
+    final userId = userData['objectId'];
 
-        Navigator.pop(context, true); // Pass 'true' to indicate task was added
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Task creation failed!")),
-        );
-      }
+    final response = await http.post(
+      url,
+      headers: {
+        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
+        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Session-Token': token ?? "",
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "title": _titleController.text,
+        "description": _descriptionController.text,
+        "status": _selectedStatus,
+        "userId": {
+          "__type": "Pointer",
+          "className": "_User",
+          "objectId": userId,
+        }
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Task added successfully!")),
+      );
+      Navigator.pop(context, true);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Task creation failed!")),
+      );
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Create Task")),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TextField(controller: _titleController, decoration: InputDecoration(labelText: "Title")),
-            TextField(controller: _descriptionController, decoration: InputDecoration(labelText: "Description")),
-            SizedBox(height: 20),
-
-            // Dropdown for status selection
-            DropdownButtonFormField<String>(
-              value: _selectedStatus,
-              decoration: InputDecoration(labelText: "Select Status"),
-              items: _statusOptions.map((String status) {
-                return DropdownMenuItem<String>(
-                  value: status,
-                  child: Text(status),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                setState(() {
-                  _selectedStatus = newValue;
-                });
-              },
-            ),
-
-            SizedBox(height: 20),
-            ElevatedButton(onPressed: createTask, child: Text("Add Task")),
-          ],
+      body: Center(
+        child: Container(
+          width: 350, // Reduce form width for a better layout
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                spreadRadius: 2,
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                "New Task",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 15),
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: "Title",
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  labelText: "Description",
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
+              ),
+              SizedBox(height: 10),
+              DropdownButtonFormField<String>(
+                value: _selectedStatus,
+                decoration: InputDecoration(
+                  labelText: "Select Status",
+                  border: OutlineInputBorder(),
+                ),
+                items: _statusOptions.map((String status) {
+                  return DropdownMenuItem<String>(
+                    value: status,
+                    child: Text(status),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    _selectedStatus = newValue;
+                  });
+                },
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: createTask,
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                ),
+                child: Text("Add Task"),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -591,19 +631,57 @@ class _EditTaskPageState extends State<EditTaskPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Edit Task")),
-      body: Padding(
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(title: Text("Update Task")),
+    body: Center(
+      child: Container(
+        width: 350, // Set fixed width for a better UI
         padding: EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              spreadRadius: 2,
+            ),
+          ],
+        ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(controller: _titleController, decoration: InputDecoration(labelText: "Title")),
-            TextField(controller: _descriptionController, decoration: InputDecoration(labelText: "Description")),
-            SizedBox(height: 20),
+            Text(
+              "Update Task",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 15),
+            TextField(
+              controller: _titleController,
+              decoration: InputDecoration(
+                labelText: "Title",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              controller: _descriptionController,
+              decoration: InputDecoration(
+                labelText: "Description",
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 3,
+            ),
+            SizedBox(height: 10),
             DropdownButtonFormField<String>(
               value: _selectedStatus,
-              decoration: InputDecoration(labelText: "Select Status"),
+              decoration: InputDecoration(
+                labelText: "Select Status",
+                border: OutlineInputBorder(),
+              ),
               items: _statusOptions.map((String status) {
                 return DropdownMenuItem<String>(
                   value: status,
@@ -617,12 +695,20 @@ class _EditTaskPageState extends State<EditTaskPage> {
               },
             ),
             SizedBox(height: 20),
-            ElevatedButton(onPressed: updateTask, child: Text("Update Task")),
+            ElevatedButton(
+              onPressed: updateTask,
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 12),
+              ),
+              child: Text("Update Task"),
+            ),
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
 }
 
 

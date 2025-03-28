@@ -33,8 +33,8 @@ class _LoginPageState extends State<LoginPage> {
     final response = await http.post(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
@@ -143,8 +143,8 @@ class _SignUpPageState extends State<SignUpPage> {
     final response = await http.post(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'Content-Type': 'application/json',
       },
       body: jsonEncode({
@@ -257,8 +257,8 @@ class _HomePageState extends State<HomePage> {
     final response = await http.get(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'X-Parse-Session-Token': token ?? "",
       },
     );
@@ -278,8 +278,8 @@ class _HomePageState extends State<HomePage> {
     final response = await http.delete(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'X-Parse-Session-Token': token ?? "",
         'Content-Type': 'application/json',
       },
@@ -447,8 +447,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
     final userResponse = await http.get(
       Uri.parse('https://parseapi.back4app.com/users/me'),
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'X-Parse-Session-Token': token ?? "",
       },
     );
@@ -466,8 +466,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
     final response = await http.post(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'X-Parse-Session-Token': token ?? "",
         'Content-Type': 'application/json',
       },
@@ -606,8 +606,8 @@ class _EditTaskPageState extends State<EditTaskPage> {
     final response = await http.put(
       url,
       headers: {
-        'X-Parse-Application-Id': 'dJ6nwRvROxnFcNWj9YMsKqJP7pitYBhInymqKOlv',
-        'X-Parse-REST-API-Key': 'Mjrqso8AEtyZkLWAzqkPVwYHZCe4jOu5bD5cGRoZ',
+        'X-Parse-Application-Id': 'YL9qiDB7OkX794ngVD5dGirnRjD5T1vJJW4qFsAL',
+        'X-Parse-REST-API-Key': '1sQ8argYYAklrnHOYT7YjGUfa1J2tUzGnqRQXFJS',
         'X-Parse-Session-Token': token ?? "",
         'Content-Type': 'application/json',
       },
